@@ -17,7 +17,11 @@ class Magazin extends Model
     {
         return $this->hasMany(Product::class , 'magazin_id');
     }
-  
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+    
     protected $fillable = [
         'name', 'Latitude', 'Longitude', "image", 'owner_id',
     ];

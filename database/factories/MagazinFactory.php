@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Owner;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,16 +17,16 @@ class MagazinFactory extends Factory
      */
     public function definition(): array
     {
+
+        $owners = Owner::pluck('id')->toArray();
+
         return [
             'name' => fake()->word,
           
             'Latitude' => fake()->latitude(),
             'Longitude' => fake()->longitude(),
             'image' => fake()->imageUrl(),
-            'owner_id' => function () {
-                // Assuming you have an Owner model and you want to associate the Magazin with an existing owner
-                return \App\Models\Owner::factory()->create()->id;
-            },
+            'owner_id' =>$this->faker->randomElement($owners),
         ];
     }
 }

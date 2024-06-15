@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreownerRequest;
 use App\Http\Requests\UpdateownerRequest;
-use App\Http\Resources\ownerResource;
+use App\Http\Resources\OwnerResource;
 use App\Models\magazin;
 use App\Models\Owner;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 
-class ownerController extends Controller
+class OwnerController extends Controller
 {
   /**
    * Display a listing of the resource.
@@ -90,31 +90,58 @@ class ownerController extends Controller
   // }
 
 
-  public function getProductsByOwnerAndMagazin($magazinId)
+  // public function getProductsByOwner()
+  // {
+  //     $ownerId = auth()->user()->getAuthIdentifier();
+  //     $owner = Owner::findOrFail($ownerId);
+  
+  //     $magazins = $owner->magazins; // Get the actual collection of magazins
+  
+  //     // Initialize an empty array to hold products
+  //     $allProducts = [];
+  
+  //     foreach ($magazins as $magazin) {
+  //         $products = $magazin->products()
+  //             ->with(['category' => function ($query) {
+  //                 $query->select('id', 'name');
+  //             }])
+  //             ->with('subcategory:id,name') // Load the subcategory relationship
+  //             ->get();
+  
+  
+  //         $allProducts = array_merge($allProducts, $products->toArray());
+  //     }
+  
+  //     return response()->json(['data' => $allProducts]);
+  // }
+
+  public function getProductsByOwner()
   {
       $ownerId = auth()->user()->getAuthIdentifier();
-  
       $owner = Owner::findOrFail($ownerId);
-      $magazin = $owner->magazins()->findOrFail($magazinId);
   
-      $products = $magazin->products()
-      ->with(['category' => function ($query) {
-          $query->select('id', 'name');
-      }])
-      ->with('subcategory:id,name') // Load the subcategory relationship
-      ->get();
+      $magazins = $owner->magazins; // Get the actual collection of magazins
   
-   $products->transform(function ($product) {
-    // Remove "images/" from the image path stored in the database
-    $imagePathWithoutImages = str_replace('/images', '', $product->image);
-    // images/
-    // Adjust the image URL based on the modified path
-    $product->image_url = asset("storage/{$imagePathWithoutImages}");
-    
-    return $product;
-});
+      // Initialize an empty array to hold products
+      $allProducts = [];
   
-      return response()->json(['data' => $products]);
+      foreach ($magazins as $magazin) {
+          $products = $magazin->products()
+              ->with(['category' => function ($query) {
+                  $query->select('id', 'name');
+              }])
+              ->with('subcategory:id,name') // Load the subcategory relationship
+              ->get()
+              ->map(function ($product) use ($magazin) {
+                  // Add the magazin_name to each product
+                  $product->magazin_name = $magazin->name;
+                  return $product;
+              });
+  
+          $allProducts = array_merge($allProducts, $products->toArray());
+      }
+  
+      return response()->json(['data' => $allProducts]);
   }
 
 

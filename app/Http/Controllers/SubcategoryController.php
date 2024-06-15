@@ -16,4 +16,8 @@ class SubcategoryController extends Controller
         return response()->json(["msg" => "no sub categries"], 404);
       }
     }
+
+  public function index() {
+    return Subcategory::all();
+  }
 }
