@@ -13,6 +13,8 @@ use App\Http\Controllers\UserController;
 use App\Models\Admin;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Magazin;
+use App\Models\Order;
 use App\Models\Owner;
 use App\Models\product;
 use Illuminate\Http\Request;
@@ -53,6 +55,20 @@ Route::middleware(['auth:sanctum', 'ability:admin'])->prefix('admin')->group(sta
         'owners' => OwnerController::class,
     ]); 
 
+    Route::get('/counts', function () {
+        $magazinsCount = Magazin::count();
+        $ownersCount = Owner::count();
+        $productsCount = Product::count();
+        $ordersCount = Order::count();
+
+        return response()->json([
+            'magazins' => $magazinsCount,
+            'owners' => $ownersCount,
+            'products' => $productsCount,
+            'orders' => $ordersCount,
+        ]);
+    });
+    
     Route::get('/', function (Request $request) {
         return $request->user();
     });
@@ -62,6 +78,9 @@ Route::middleware(['auth:sanctum', 'ability:admin'])->prefix('admin')->group(sta
 Route::middleware(['auth:sanctum', 'ability:owner'])->prefix('owner')->group(static function () {
     Route::apiResource('magazins', MagazinController::class);
     Route::apiResource('products', ProductController::class);
+    Route::apiResource('orders', OrderController::class)->only("destroy");
+    Route::get('/getorders', [OrderController::class, 'getOrderMagazin']);
+
     Route::put('upproducts/{id}', [ProductController::class, 'update']);
     Route::get('/producss', [OwnerController::class, 'getProductsByOwner']);
     Route::get('/magazin/{magazinId}/products', [OwnerController::class, 'getProductsByOwnerAndMagazin']);

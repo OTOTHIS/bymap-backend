@@ -16,10 +16,43 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        return Order::all();
+    public function index(){
+
     }
+  
+
+
+    public function getOrderMagazin()
+    {
+        // Retrieve orders belonging to the authenticated user with items and user eager loaded
+        $user = Auth::user();
+        $orders = $user->orders()
+                       ->with(['items', 'items.product']) // Eager load items, products, and user
+                       ->orderByDesc('created_at')
+                       ->get();
+    
+        // Check if any orders were found
+        if ($orders->isEmpty()) {
+            return response()->json(['message' => 'No orders found'], 404);
+        }
+    
+        // Prepare the response array with orders, total price, and customer username
+        $ordersWithTotalAndUsername = $orders->map(function ($order) {
+            $totalPrice = $order->items->sum(function ($item) {
+                return $item->quantity * $item->product->price;
+            });
+    
+            return [
+                'order' => $order,
+                'total_price' => $totalPrice,
+                'customer_firstname' => $order->user->firstname, // Retrieve first name from user relationship
+                'customer_lastname' => $order->user->lastname, // Retrieve last name from user relationship
+            ];
+        });
+    
+        return response()->json(['orders' => $ordersWithTotalAndUsername]);
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -28,38 +61,6 @@ class OrderController extends Controller
     {
         //
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    // public function store(Request $request)
-    // {
-    //     $user = Auth::user();
-    //     $cart = Cart::where('user_id', $user->id)->first();
-        
-    //     // Check if the cart is empty
-    //     if (!$cart || $cart->cartItems->isEmpty()) {
-    //         return response()->json(['message' => 'Cart is empty'], 400);
-    //     }
-        
-        // // Create an order for the user
-        // $order = $user->orders()->create();
-    
-        // // Convert cart items to order items
-        // foreach ($cart->cartItems as $cartItem) {
-        //     $order->items()->create([
-        //         'product_id' => $cartItem->product_id,
-        //         'quantity' => $cartItem->quantity,
-        //     ]);
-        // }
-    
-    //     // Clear the cart
-    //     $cart->cartItems()->delete();
-    
-    //     return response()->json(['message' => 'Order placed successfully'], 201);
-    // }
-    
-    
 
 
 
@@ -173,8 +174,16 @@ return response()->json(['order' => $order  , 'message'=>"payment succes" ]);
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Order $order)
+    public function destroy($id)
     {
-        //
+        try {
+            $order = Order::findOrFail($id);
+            $order->delete();
+            return response()->json(['message' => 'Order deleted successfully'], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json(['message' => 'Order not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Order deletion failed: ' . $e->getMessage()], 500);
+        }
     }
 }

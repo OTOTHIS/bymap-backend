@@ -43,6 +43,12 @@ class DatabaseSeeder extends Seeder
             // CartItem::factory(10)->create();
             // Review::factory(1000)->create(); // Generate 100 reviews
 
+
+
+            
+            // \App\Models\Order::factory(3)->create();
+            // \App\Models\OrderItem::factory(3)->create();
+
         // User::factory()->create([
         //     'firstname' => 'user',
         //     'lastname' => 'user',
@@ -51,14 +57,14 @@ class DatabaseSeeder extends Seeder
         //     'password' => '123456789'
         // ]);
 
-        // Admin::factory()->create([
-        //     'firstname' => 'Admin',
-        //     'lastname' => 'Admin',
-        //     'cin' => fake()->title(),
-        //     'phone' => substr(fake()->phoneNumber(),10),
-        //     'email' => 'admin@admin.admin',
-        //     'password' => '123456789'
-        // ]);
+        Admin::factory()->create([
+            'firstname' => 'Admin',
+            'lastname' => 'Admin',
+            'cin' => fake()->title(),
+            'phone' => substr(fake()->phoneNumber(),10),
+            'email' => 'admin@admin.admin',
+            'password' => Hash::make('123456789'),
+]);
 
         // Owner::factory()->create([
         //     'firstname' => 'Owner',

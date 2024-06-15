@@ -25,6 +25,12 @@ class Owner extends Authenticatable
   {
       return 'owner';
   }
+  public function orders()
+    {
+        return $this->hasManyThrough(Order::class, Magazin::class, 'owner_id', 'magazin_id');
+    }
+
+
   protected $fillable = [
     'firstname',
     'lastname',
