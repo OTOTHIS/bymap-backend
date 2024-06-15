@@ -5,7 +5,7 @@ use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MagazinController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ownerController;
+use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\SubcategoryController;
@@ -50,7 +50,7 @@ Route::middleware(['auth:sanctum', 'ability:user'])->prefix('user')->group(stati
 
 Route::middleware(['auth:sanctum', 'ability:admin'])->prefix('admin')->group(static function () {
     Route::apiResources([
-        'owners' => ownerController::class,
+        'owners' => OwnerController::class,
     ]); 
 
     Route::get('/', function (Request $request) {
@@ -62,7 +62,8 @@ Route::middleware(['auth:sanctum', 'ability:admin'])->prefix('admin')->group(sta
 Route::middleware(['auth:sanctum', 'ability:owner'])->prefix('owner')->group(static function () {
     Route::apiResource('magazins', MagazinController::class);
     Route::apiResource('products', ProductController::class);
-    Route::get('/producss', [ownerController::class, 'getProductsByMagazinAuth']);
+    Route::put('upproducts/{id}', [ProductController::class, 'update']);
+    Route::get('/producss', [OwnerController::class, 'getProductsByOwner']);
     Route::get('/magazin/{magazinId}/products', [OwnerController::class, 'getProductsByOwnerAndMagazin']);
    // Route::apiResource('products', ProductController::class);
     Route::get('/', function (Request $request) {
@@ -93,6 +94,7 @@ Route::prefix('public')->group(function () {
     Route::get('magazins', [MagazinController::class, 'magazinList'])->withoutMiddleware(['auth:sanctum', 'ability:owner', 'ability:admin', 'ability:buyer']);
 
     Route::get('subcategories/{subcategorie}', [SubcategoryController::class, 'getSubcategoriesByCategoryId'])->withoutMiddleware(['auth:sanctum', 'ability:owner', 'ability:admin', 'ability:buyer']);
+    Route::get('subcategories', [SubcategoryController::class, 'index'])->withoutMiddleware(['auth:sanctum', 'ability:owner', 'ability:admin', 'ability:buyer']);
 
     Route::get('/magazinas', [MagazinController::class, 'paginatedMagazins']);
     Route::get('/Allmagazins', [MagazinController::class, 'getMagazinDetail']);

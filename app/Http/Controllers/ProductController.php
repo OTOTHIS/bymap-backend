@@ -246,9 +246,27 @@ public function store(Request $request)
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, product $product)
+    public function update(Request $request, $id)
     {
-        //
+        // Validate the request data
+        $validatedData = $request->validate([
+            'title' => 'required|string',
+            'price' => 'required|numeric',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+    
+        // Find the product by ID
+        $product = Product::findOrFail($id);
+    
+        // Update the product with the new data
+        $product->update([
+            'title' => $validatedData['title'],
+            'price' => $validatedData['price'],
+            'category_id' => $validatedData['category_id'],
+        ]);
+    
+        // Return a response, e.g., the updated product
+        return response()->json($product, 200);
     }
 
     /**

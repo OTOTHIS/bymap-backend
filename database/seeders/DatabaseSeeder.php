@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
        
 
    
-        // $this->call(ProductSeeder::class);
+        $this->call(ProductSeeder::class);
         // $this->call(MagazinrSeeder::class);
 
 
@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
             // // Product::factory(4)->create();
             // Cart::factory(4)->create();
             // CartItem::factory(10)->create();
-            Review::factory(1000)->create(); // Generate 100 reviews
+            // Review::factory(1000)->create(); // Generate 100 reviews
 
         // User::factory()->create([
         //     'firstname' => 'user',
