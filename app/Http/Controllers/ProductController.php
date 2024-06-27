@@ -193,22 +193,26 @@ public function store(Request $request)
         'title' => 'required|string',
         'description' => 'required|string',
         'price' => 'required|numeric',
+        'oldprice' => 'required|numeric',
+
         'magazin_id' => 'required|exists:magazins,id',
         'category_id' => 'required|exists:categories,id',
         'subcategory_id' => 'required|exists:subcategories,id',
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:6048',
+        // 'images' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:6048',
+        'images' => 'required',
+
     ]);
 
  
     
 
     // Handle image upload
-    if ($request->hasFile('image')) {
-        $uploadedImage = $request->file('image');
+    if ($request->hasFile('images')) {
+        $uploadedImage = $request->file('images');
         $imagePath = $uploadedImage->store('images/products'); // You can customize the storage path
 
         // Save the image path in the database
-        $validatedData['image'] = $imagePath;
+        $validatedData['images'] = $imagePath;
     }
 
     // Create a new product using Eloquent
@@ -235,7 +239,7 @@ public function store(Request $request)
                 $query->select('id', 'name');
             },
             'reviews' => function($query) {
-                $query->select('id', 'product_id', 'user_id', 'commmenttitle','content', 'rating', 'created_at');
+                $query->select('id', 'product_id', 'user_id', 'title','content', 'rating', 'created_at');
             },
             'reviews.user' => function($query) {
                 $query->select('id', 'firstname' , 'lastname');

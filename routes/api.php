@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MagazinController;
 use App\Http\Controllers\OrderController;
@@ -10,9 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
-use App\Models\Admin;
-use App\Models\Cart;
-use App\Models\CartItem;
+
 use App\Models\Magazin;
 use App\Models\Order;
 use App\Models\Owner;
@@ -54,6 +51,7 @@ Route::middleware(['auth:sanctum', 'ability:admin'])->prefix('admin')->group(sta
     Route::apiResources([
         'owners' => OwnerController::class,
     ]); 
+    Route::apiResource('categories', CategoryController::class);
 
     Route::get('/counts', function () {
         $magazinsCount = Magazin::count();
@@ -125,4 +123,4 @@ Route::prefix('public')->group(function () {
 Route::get('magazins/populate', [MagazinController::class, 'getRandomMagazinWithProducts']);
 
 
-require __DIR__ . '/auth.php';
+// require __DIR__ . '/auth.php';

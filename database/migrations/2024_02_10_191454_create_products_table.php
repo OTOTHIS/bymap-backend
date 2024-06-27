@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('views')->default(0);
             $table->float('price');
             $table->float('oldprice');
+            $table->decimal('discount', 8, 2)->default(0); // Add this line
             // $table->string('image');
             $table->json('images'); // Store array of images as JSON
             $table->foreignIdFor(Magazin::class)->constrained()->cascadeOnDelete();

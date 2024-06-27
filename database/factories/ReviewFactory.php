@@ -28,7 +28,7 @@ class ReviewFactory extends Factory
         return [
         'user_id' => $this->faker->randomElement($userIds),
         'product_id' => $this->faker->randomElement($productIds),
-            'commmenttitle' => $this->faker->paragraph,
+            'title' => $this->faker->text(200),
             'content' => $this->faker->text(),
             'rating' => $this->faker->numberBetween(1, 5),
         ];

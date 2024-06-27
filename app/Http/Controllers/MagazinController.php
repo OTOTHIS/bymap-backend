@@ -190,7 +190,7 @@ class MagazinController extends Controller
         'name' => 'required|string',
         'Latitude' => 'required|string',
         'Longitude' => 'required|string',
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Image validation rules
+        // 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
     ]);
 
 

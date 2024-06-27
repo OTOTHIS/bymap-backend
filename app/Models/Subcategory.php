@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Subcategory extends Model
 {
     use HasFactory;
+
     public function categroies()
     {
         return $this->hasOne(product::class,'category_id');
@@ -26,9 +27,7 @@ class Subcategory extends Model
 
     protected $fillable = [
         'name',
-        'updated_at',
-        'created_at',
-        "category_id",
+      
       
     ];
     

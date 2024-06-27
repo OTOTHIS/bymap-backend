@@ -32,10 +32,15 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
     ->middleware(['auth', 'throttle:6,1'])
     ->name('verification.send');
 
-Route::middleware(['auth:sanctum,admin,owner,user'])->group(function () {
+// Route::middleware(['auth:sanctum,admin,owner,user'])->group(function () {
+//     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+//         ->middleware('auth')
+//         ->name('logout');
+// });
+
+Route::middleware(['auth:sanctum', 'ability:admin,owner,user'])->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
         ->middleware('auth')
         ->name('logout');
 });
-
 

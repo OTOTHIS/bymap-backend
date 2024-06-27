@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('Latitude');
             $table->string('Longitude');
-            $table->text('image');
+            $table->text('image')->nullable();
             $table->unsignedBigInteger('owner_id');
             $table->softDeletes();
             $table->timestamps();

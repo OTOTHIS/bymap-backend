@@ -12,108 +12,53 @@ class CategoryController extends Controller
      */
     public function index()
     {
-
-//         $data = Category::withCount('products')
-//         ->with(['subcategories' => function ($query) {
-//             $query->withCount('products');
-//         }])
-//         ->get();
-// return response()->json($data, 200);
-
-
-// $categories = Category::withCount('products')
-// ->with(['subcategories' => function ($query) {
-//     $query->withCount('products');
-// }])
-// ->get();
-
-// // Iterate through categories to verify counts
-// $categories->transform(function ($category) {
-// $categoryProductsCount = $category->products_count;
-// $subcategoriesProductsCount = $category->subcategories->sum('products_count');
-
-// // If counts don't match, set category's products_count to subcategories sum
-// if ($categoryProductsCount != $subcategoriesProductsCount) {
-// $category->products_count = $subcategoriesProductsCount;
-// }
-
-// // Extracting only necessary attributes for categories and subcategories
-// return [
-// 'id' => $category->id,
-// 'name' => $category->name,
-// 'products_count' => $category->products_count,
-// 'subcategories' => $category->subcategories->map(function ($subcategory) {
-// return [
-// 'id' => $subcategory->id,
-// 'name' => $subcategory->name,
-// 'products_count' => $subcategory->products_count
-// ];
-// })
-// ];
-// });
-
-// return response()->json($categories, 200);
-
-
-
-
-
-
-
-// $categories = Category::withCount('products')
-// ->with(['subcategories' => function ($query) {
-//     $query->withCount('products');
-// }])
-// ->get();
-
-// // Iterate through categories to verify counts
-// $categories->transform(function ($category) {
-// $categoryProductsCount = $category->products_count;
-// $subcategoriesProductsCount = $category->subcategories->sum('products_count');
-
-// // If counts don't match, set category's products_count to subcategories sum
-// if ($categoryProductsCount != $subcategoriesProductsCount) {
-// $category->products_count = $subcategoriesProductsCount;
-// }
-
-// return $category;
-// });
-
-
-$categories= Category::all();
-return $categories;
-
-
+        $categories = Category::all();
+        return response()->json($categories);
     }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $category = Category::create($request->all());
+
+        return response()->json($category, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(category $category)
+    public function show(Category $category)
     {
-        //
+        return response()->json($category);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, category $category)
+    public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $category->update($request->all());
+
+        return response()->json($category);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(category $category)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return response()->json(null, 204);
     }
 }
