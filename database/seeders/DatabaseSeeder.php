@@ -29,8 +29,13 @@ class DatabaseSeeder extends Seeder
        
 
    
+<<<<<<< HEAD
 
 
+=======
+        $this->call(ProductSeeder::class);
+        // $this->call(MagazinrSeeder::class);
+>>>>>>> 23ac2eb58b0cceed88a78f56751332d2548671ec
 
 
             // Magazin::factory(10)->create();
