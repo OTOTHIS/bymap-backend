@@ -24,8 +24,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(100)->create();
-        Owner::factory(100)->create();
+        // User::factory(100)->create();
+        // Owner::factory(100)->create();
        
 
    
@@ -36,27 +36,27 @@ class DatabaseSeeder extends Seeder
             // Magazin::factory(10)->create();
 
 
-            category::factory(4)->create();
-            Subcategory::factory(4)->create();
+            // category::factory(4)->create();
+            // Subcategory::factory(4)->create();
 
 
             // $this->call(ProductSeeder::class);
-            $this->call(MagazinrSeeder::class);
-             $this->call(ProductSeeder::class);
+            // $this->call(MagazinrSeeder::class);
+            //  $this->call(ProductSeeder::class);
 
 
             // // Product::factory(4)->create();
 
 
-            Cart::factory(100)->create();
-            CartItem::factory(1000)->create();
-            Review::factory(1000)->create(); 
+            // Cart::factory(100)->create();
+            // CartItem::factory(100)->create();
+            // Review::factory(100)->create(); 
 
 
 
             
-            \App\Models\Order::factory(34)->create();
-            \App\Models\OrderItem::factory(34)->create();
+            // \App\Models\Order::factory(34)->create();
+            // \App\Models\OrderItem::factory(34)->create();
 
         User::factory()->create([
             'firstname' => 'user',

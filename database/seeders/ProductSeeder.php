@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Magazin;
 use App\Models\Product;
 use App\Models\Review;
 use App\Models\User;
@@ -9,6 +10,8 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\File;
+use Faker\Factory as Faker;
+
 
 class ProductSeeder extends Seeder
 {
@@ -22,7 +25,9 @@ class ProductSeeder extends Seeder
          $jsonPath = database_path('data/products.json'); // This resolves to <project_root>/database/data/products.json
          $jsonData = File::get($jsonPath);
          $products = json_decode($jsonData, true);
- 
+         $magazinIds = Magazin::pluck('id')->toArray();
+         $faker = Faker::create();
+
          foreach ($products as $productData) {
              // Convert prices to float and handle missing fields
              $price = isset($productData['price']) ? floatval(str_replace(',', '', $productData['price'])) : 0;
@@ -37,8 +42,8 @@ class ProductSeeder extends Seeder
                  'images' => json_encode($productData['images'] ?? []),
                  'category_id' => rand(1, 4), // Random category_id
                  'subcategory_id' => rand(1, 4), // Random subcategory_id
-                 'magazin_id' => rand(1, 119) // Random magazin_id
-             ]);
+                 'magazin_id' => $faker->randomElement($magazinIds) // Random magazin_id
+                ]);
          }
      }
 }
