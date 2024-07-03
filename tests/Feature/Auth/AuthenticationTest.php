@@ -62,7 +62,12 @@ class AuthenticationTest extends TestCase
 
     public function test_users_can_logout(): void
     {
-        $user = User::findOrFail(105);
+        // Create a user using the factory with a hashed password
+        $user = User::factory()->create([
+            'email' => 'user4@user.com',
+            'password' => Hash::make('password'),
+        ]);
+
 
         // Log in the user with specific abilities
         Sanctum::actingAs($user, ['admin', 'owner', 'user'],'web');

@@ -119,6 +119,7 @@ class ProductController extends Controller
             $data = Product::inRandomOrder()->paginate($limit, ['*'], 'page', $page);
         }
     
+   
         // Transform the data
         $transformedData = $data->map(function ($product) {
             return $this->transform($product);
@@ -161,6 +162,9 @@ class ProductController extends Controller
         'id' => $product->id,
         'title' => $product->title,
         'price' => $product->price,
+        "description"=>$product->description,
+        "oldprice"=>$product->oldprice,
+        "discount"=>rand(5 , 30),
         // 'images' => $product->images,
         'images' => json_decode($product->images),
         // 'images' => is_string($product->images) 
@@ -175,6 +179,7 @@ class ProductController extends Controller
             ] : null,
         ],
       'magazin_name' => optional($product->magazins)->name,
+      'total' =>Product::count(),
   
 
     ];

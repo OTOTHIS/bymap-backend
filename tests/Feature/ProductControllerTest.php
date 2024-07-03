@@ -63,7 +63,7 @@ class ProductControllerTest extends TestCase
             'magazin_id' => $magazin->id,
             'category_id' => $category->id,
             'subcategory_id' => $subcategory->id,
-            'images' => json_encode($file),
+            'images' => json_encode([$file->hashName()]), // Correctly format the images field as a JSON array
         ];
 
         $response = $this->postJson('/api/owner/products', $data);

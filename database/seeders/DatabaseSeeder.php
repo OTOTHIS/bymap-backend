@@ -13,7 +13,6 @@ use App\Models\Product;
 use App\Models\Review;
 use App\Models\Subcategory;
 use App\Models\User;
-use Database\Factories\SubcategoryFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -24,8 +23,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(100)->create();
-        // Owner::factory(100)->create();
+      
        
 
    
@@ -39,7 +37,11 @@ class DatabaseSeeder extends Seeder
             // category::factory(4)->create();
             // Subcategory::factory(4)->create();
 
-
+            // $this->call([
+            //     CategorySeeder::class,
+            //     subcategorySeeder::class,
+            // ]);
+            
             // $this->call(ProductSeeder::class);
             // $this->call(MagazinrSeeder::class);
             //  $this->call(ProductSeeder::class);
@@ -55,25 +57,39 @@ class DatabaseSeeder extends Seeder
 
 
             
-            // \App\Models\Order::factory(34)->create();
-            // \App\Models\OrderItem::factory(34)->create();
+            \App\Models\Order::factory(34)->create();
+            \App\Models\OrderItem::factory(34)->create();
 
-        User::factory()->create([
-            'firstname' => 'user',
-            'lastname' => 'user',
-            'email' => 'user@user.com',
-            'tel' => '0343242434243',
-            'password' => '123456789'
-        ]);
+        // User::factory()->create([
+        //     'firstname' => 'user',
+        //     'lastname' => 'user',
+        //     'email' => 'user@user.com',
+        //     'tel' => '0343242434243',
+        //     'password' => '123456789'
+        // ]);
 
-        Admin::factory()->create([
-            'firstname' => 'Admin',
-            'lastname' => 'Admin',
-            'cin' => fake()->title(),
-            'phone' => substr(fake()->phoneNumber(),10),
-            'email' => 'admin@admin.admin',
-            'password' => Hash::make('123456789'),
-]);
+        //         Owner::factory()->create([
+        //     'firstname' => 'Owner',
+        //     'lastname' => 'Owner',
+        //     'date_of_birth' => fake()->date(),
+        //     'last_login_date' => fake()->date(),
+        //     'cin' => fake()->title(),
+        //     'phone' => substr(fake()->phoneNumber(),10),
+        //     'email' => 'Owner@Owner.Owner',
+        //     'password' => Hash::make('123456789'),
+        // ]);
+
+//   User::factory(200)->create();
+        // Owner::factory(200)->create();
+
+//         Admin::factory()->create([
+//             'firstname' => 'Admin',
+//             'lastname' => 'Admin',
+//             'cin' => fake()->title(),
+//             'phone' => substr(fake()->phoneNumber(),10),
+//             'email' => 'admin@admin.admin',
+//             'password' => Hash::make('123456789'),
+// ]);
 
         // Owner::factory()->create([
         //     'firstname' => 'Owner',
@@ -94,16 +110,16 @@ class DatabaseSeeder extends Seeder
     //  ]);
 
 
-        Owner::factory()->create([
-            'firstname' => 'othmane',
-            'lastname' => 'assadi',
-            'date_of_birth' => fake()->date(),
-            'last_login_date' => fake()->date(),
-            'cin' => fake()->title(),
-            'phone' => substr(fake()->phoneNumber(),10),
-            'email' => 'othmane@gmail.com',
-            'password' => Hash::make('123456789'),
-    ]);
+    //     Owner::factory()->create([
+    //         'firstname' => 'othmane',
+    //         'lastname' => 'assadi',
+    //         'date_of_birth' => fake()->date(),
+    //         'last_login_date' => fake()->date(),
+    //         'cin' => fake()->title(),
+    //         'phone' => substr(fake()->phoneNumber(),10),
+    //         'email' => 'othmane@gmail.com',
+    //         'password' => Hash::make('123456789'),
+    // ]);
 
 
     }

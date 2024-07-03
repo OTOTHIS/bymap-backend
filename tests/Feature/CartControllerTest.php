@@ -117,9 +117,6 @@ public function it_returns_total_price_correctly()
 }
 
 
-
-  
-
     /** @test */
     public function it_does_not_allow_negative_quantity()
     {
